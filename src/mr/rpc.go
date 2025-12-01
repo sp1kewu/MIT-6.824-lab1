@@ -23,7 +23,27 @@ type ExampleReply struct {
 }
 
 // Add your RPC definitions here.
-
+//worker ask for task
+type AskTaskArgs struct {
+	WorkerID int
+}
+//coordinator reply task to worker
+type AskTaskReply struct {
+	TaskType   string // "map", "reduce","wait","exit"
+	TaskID int
+	Filename   string   // for map task
+	NReduce    int      // for map task
+	NMap       int      // for reduce task
+}
+//worker report task to coordinator
+type ReportTaskArgs struct {
+	WorkerID int
+	TaskID   int
+	TaskType string // "map", "reduce"
+}
+//null
+type ReportTaskReply struct {
+}
 
 // Cook up a unique-ish UNIX-domain socket name
 // in /var/tmp, for the coordinator.
@@ -34,3 +54,4 @@ func coordinatorSock() string {
 	s += strconv.Itoa(os.Getuid())
 	return s
 }
+
